@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wqb.website.mappers.article.ArticleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wqb.website.domains.article.Article">
+        <id column="id" property="id"/>
+        <result column="subject" property="subject"/>
+        <result column="description" property="description"/>
+        <result column="click_count" property="clickCount"/>
+        <result column="sort_no" property="sortNo"/>
+        <result column="keyword" property="keyword"/>
+        <result column="author" property="author"/>
+        <result column="cover_pic" property="coverPic"/>
+        <result column="is_enabled" property="isEnabled"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="ContentResultMap" type="com.wqb.website.commons.vo.ArticleVO" extends="BaseResultMap">
+        <result column="type_id" property="typeId"/>
+        <result column="content" property="content"/>
+        <result column="name" property="artTypeName"/>
+        <result column="platform" property="platform"/>
+        <result column="status" property="artTypeStatus"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        subject, description, click_count, sort_no, keyword, author, cover_pic, is_enabled, create_time, update_time
+    </sql>
+
+    <sql id="Full_Column_List">
+        <include refid="Base_Column_List"/>,a.id,t.type_id, p.name, p.platform, p.status, c.content
+    </sql>
+
+    <select id="selectArticle" resultMap="ContentResultMap">
+        select <include refid="Full_Column_List"/>
+        from article a
+        join article_content c on a.id=c.article_id
+        join article_type t on a.id=t.art_id
+        join platform_type p on t.type_id=p.id
+        where a.id = #{id}
+    </select>
+
+    <select id="selectArticles" resultMap="ContentResultMap">
+        select <include refid="Full_Column_List"/>
+        from article a
+        join article_content c on a.id=c.article_id
+        join article_type t on a.id=t.art_id
+        join platform_type p on t.type_id=p.id
+    </select>
+
+    <select id="selectPageList" resultMap="ContentResultMap">
+        <bind name="likeSubjectPattern" value="'%' + artParam.subject + '%'" />
+        select <include refid="Full_Column_List"/>
+        from article a
+        join article_content c on a.id=c.article_id
+        join article_type t on a.id=t.art_id
+        join platform_type p on t.type_id=p.id
+        <where>
+            <if test="artParam.typeIds !=null">
+                and t.type_id in
+                <foreach collection="artParam.typeIds" item="id" index="index"
+                         open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="artParam.platformIds !=null">
+                and p.platform in
+                <foreach collection="artParam.platformIds" item="id" index="index"
+                         open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="artParam.subject !=null">
+                and a.subject like #{likeSubjectPattern}
+            </if>
+            <if test="artParam.isEnabled !=null">
+                and a.is_enabled=#{artParam.isEnabled}
+            </if>
+        </where>
+        order by a.sort_no ${artParam.sortNoDirection}, a.create_time ${artParam.createTimeDirection}
+        limit ${(artParam.current-1)*artParam.size} , ${artParam.size}
+    </select>
+
+    <select id="selectTotal"  resultType="java.lang.Long">
+        <bind name="likeSubjectPattern" value="'%' + artParam.subject + '%'" />
+        select count(1)
+        from article a
+        join article_content c on a.id=c.article_id
+        join article_type t on a.id=t.art_id
+        join platform_type p on t.type_id=p.id
+        <where>
+            <if test="artParam.typeIds !=null">
+                and t.type_id  in
+                <foreach collection="artParam.typeIds" item="id" index="index"
+                         open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="artParam.platformIds !=null">
+                and p.platform in
+                <foreach collection="artParam.platformIds" item="id" index="index"
+                         open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="artParam.subject !=null">
+                and a.subject like #{likeSubjectPattern}
+            </if>
+            <if test="artParam.isEnabled !=null">
+                and a.is_enabled=#{artParam.isEnabled}
+            </if>
+        </where>
+    </select>
+</mapper>

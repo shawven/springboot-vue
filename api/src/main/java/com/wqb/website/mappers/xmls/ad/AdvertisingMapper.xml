@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wqb.website.mappers.ad.AdvertisingMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wqb.website.domains.ad.Advertising">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="site_id" property="siteId" />
+        <result column="pic_path" property="picPath" />
+        <result column="link" property="link" />
+        <result column="sort_no" property="sortNo" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <result column="is_enabled" property="isEnabled" />
+    </resultMap>
+
+    <resultMap id="SiteResultMap" type="com.wqb.website.commons.vo.AdvertisingVO" extends="BaseResultMap">
+        <result column="siteName" property="siteName"/>
+        <result column="platform" property="platform"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, site_id, pic_path, link, sort_no, start_time, end_time, is_enabled
+    </sql>
+
+    <sql id="Full_Column_List">
+        <include refid="Base_Column_List"/>,site.name as siteName, site.platform
+    </sql>
+
+    <select id="selectAd" resultMap="SiteResultMap">
+        select <include refid="Full_Column_List"/>
+        from advertising ad
+        join advertising_site site on ad.site_id=site.id
+        where a.id = #{id}
+    </select>
+
+    <select id="selectAds" resultMap="SiteResultMap">
+        select <include refid="Full_Column_List"/>
+        from advertising ad
+        join advertising_site site on ad.site_id=site.id
+    </select>
+
+    <select id="selectPageList" resultMap="SiteResultMap">
+        <bind name="likeAdNamePattern" value="'%' + adParam.name + '%'" />
+        <bind name="likeSitePattern" value="'%' + adParam.siteName + '%'" />
+        select <include refid="Full_Column_List"/>
+        from advertising ad
+        join advertising_site site on ad.site_id=site.id
+        <where>
+            <if test="adParam.name !=null">
+                and ad.name like #{likeAdNamePattern}
+            </if>
+            <if test="adParam.name !=null">
+                and site.name like #{likeSitePattern}
+            </if>
+            <if test="adParam.platform !=null">
+                and site.platform=#{adParam.platform}
+            </if>
+            <if test="adParam.isEnabled !=null">
+                and ad.is_enabled=#{adParam.isEnabled}
+            </if>
+        </where>
+        order by a.sort_no ${artParam.sortNoDirection}, a.create_time ${artParam.createTimeDirection}
+        limit ${(adParam.current-1)*adParam.size} , ${adParam.size}
+    </select>
+
+    <select id="selectPageList" resultMap="SiteResultMap">
+        <bind name="likeAdNamePattern" value="'%' + adParam.name + '%'" />
+        <bind name="likeSitePattern" value="'%' + adParam.siteName + '%'" />
+        select <include refid="Full_Column_List"/>
+        from advertising ad
+        join advertising_site site on ad.site_id=site.id
+        <where>
+            <if test="adParam.name !=null">
+                and ad.name like #{likeAdNamePattern}
+            </if>
+            <if test="adParam.name !=null">
+                and site.name like #{likeSitePattern}
+            </if>
+            <if test="adParam.platform !=null">
+                and site.platform=#{adParam.platform}
+            </if>
+            <if test="adParam.isEnabled !=null">
+                and ad.is_enabled=#{adParam.isEnabled}
+            </if>
+        </where>
+    </select>
+
+</mapper>
