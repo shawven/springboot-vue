@@ -193,7 +193,7 @@ export default {
 
 <style lang="scss" scoped>
 .tags-view-container {
-  height: 34px;
+  height: 36px;
   width: 100%;
   background: #fff;
   border-bottom: 1px solid #d8dce5;
@@ -203,13 +203,13 @@ export default {
       display: inline-block;
       position: relative;
       cursor: pointer;
-      height: 26px;
-      line-height: 26px;
+      height: 28px;
+      line-height: 27px;
       border: 1px solid #d8dce5;
       color: #495060;
       background: #fff;
       padding: 0 8px;
-      font-size: 12px;
+      font-size: 14px;
       margin-left: 5px;
       margin-top: 4px;
       &:first-of-type {
@@ -226,8 +226,8 @@ export default {
           content: '';
           background: #fff;
           display: inline-block;
-          width: 8px;
-          height: 8px;
+          width: 9px;
+          height: 9px;
           border-radius: 50%;
           position: relative;
           margin-right: 2px;
@@ -264,13 +264,14 @@ export default {
 .tags-view-wrapper {
   .tags-view-item {
     .el-icon-close {
-      width: 16px;
-      height: 16px;
-      vertical-align: 2px;
+      width: 20px;
+      height: 20px;
+      vertical-align: 3px;
       border-radius: 50%;
       text-align: center;
       transition: all .3s cubic-bezier(.645, .045, .355, 1);
       transform-origin: 100% 50%;
+      margin-right: -4px;
       &:before {
         transform: scale(.6);
         display: inline-block;

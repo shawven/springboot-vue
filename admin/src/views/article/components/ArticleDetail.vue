@@ -21,15 +21,15 @@
               </MDinput>
               <span v-show="subjectLength" class="word-counter">{{ subjectLength }}字</span>
             </el-form-item>
-            <el-form-item prop="description" style="margin-bottom: 40px;">
-              <MDinput v-model="postForm.description" :maxlength="100">
-                简介
-              </MDinput>
-              <span v-show="descLength" class="word-counter">{{ descLength }}字</span>
-            </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item prop="cover" label="封面" style="margin-bottom: 30px;" class="cover">
+        <div style="color:#606266; font-size: 18px" class="mb-1">简介</div>
+        <el-form-item prop="description" style="margin-bottom: 40px;">
+          <el-input v-model="postForm.description" :rows="1" type="textarea" class="article-textarea" autosize placeholder="请输入简介" />
+          <span v-show="descLength" class="word-counter">{{ descLength }}字</span>
+        </el-form-item>
+        <div style="color:#606266; font-size: 18px" class="mb-1">封面</div>
+        <el-form-item prop="cover" style="margin-bottom: 30px;" class="cover">
           <Upload v-model="postForm.cover" />
         </el-form-item>
         <el-form-item prop="content" style="margin-bottom: 30px;">

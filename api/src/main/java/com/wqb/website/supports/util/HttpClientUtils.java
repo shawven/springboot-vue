@@ -1,7 +1,6 @@
 package com.wqb.website.supports.util;
 
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.beanutils.BeanMap;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.*;
@@ -342,8 +341,12 @@ public class HttpClientUtils {
         if (input instanceof Map) {
             mapInput = (Map)input;
         } else {
-            mapInput = new BeanMap(input);
-            mapInput.remove("class");
+            try {
+                mapInput = ReflectHelper.objectToMap(input);
+            } catch (Exception e) {
+                logger.warn(e.getMessage(), e);
+                return null;
+            }
         }
         return converter.apply(mapInput);
     }

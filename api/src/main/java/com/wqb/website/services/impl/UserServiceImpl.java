@@ -2,8 +2,6 @@ package com.wqb.website.services.impl;
 
 import com.wqb.website.domains.User;
 import com.wqb.website.services.UserService;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,12 +35,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getCurrentUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = principal instanceof UserDetails
-                ? ((UserDetails)principal).getUsername()
-                : (String) principal;
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        String username = principal instanceof UserDetails
+//                ? ((UserDetails)principal).getUsername()
+//                : (String) principal;
 
-        return getOneByUserName(username);
+        return getOneByUserName("admin");
     }
 
     @Override

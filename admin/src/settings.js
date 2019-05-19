@@ -1,35 +1,45 @@
 module.exports = {
-  title: '微企宝管理系统',
+  /**
+   * @type {string}
+   * @description 系统名称
+   */
+  title: '微企宝后台管理系统',
+
+  /**
+   * @type {string}
+   * @description 侧边栏LOGO连接
+   */
+  logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png',
 
   /**
    * @type {boolean} true | false
-   * @description Whether show the settings right-panel
+   * @description 是否显示右侧面板的设置
    */
   showSettings: true,
 
   /**
    * @type {boolean} true | false
-   * @description Whether need tagsView
+   * @description 是否需要标签页
    */
   tagsView: true,
 
   /**
    * @type {boolean} true | false
-   * @description Whether fix the header
+   * @description 是否固定头部
    */
-  fixedHeader: false,
+  fixedHeader: true,
 
   /**
    * @type {boolean} true | false
-   * @description Whether show the logo in sidebar
+   * @description 是否在侧边栏中显示LOGO
    */
-  sidebarLogo: false,
+  sidebarLogo: true,
 
   /**
    * @type {string | array} 'production' | ['production', 'development']
-   * @description Need show err logs component.
-   * The default is only used in the production env
-   * If you want to also use it in dev, you can pass ['production', 'development']
+   * @description 需要显示错误日志组件
+   * 默认值仅用于生产环境
+   * 如果你想在dev中使用它，你可以通过['production'，'development']
    */
   errorLog: 'production'
 }

@@ -6,6 +6,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import java.lang.annotation.Annotation;
+import java.util.Map;
+
 /**
  * @author Shoven
  * @date 2018-09-30 10:32
@@ -27,6 +30,48 @@ public class SpringContextUtils implements ApplicationContextAware {
         checkApplicationContext();
         return applicationContext;
     }
+
+    /**
+     * 通过可能的参数化类型名称找bean
+     *
+     * @param cls
+     * @param suffix
+     * @return
+     */
+    public static <T> T getBeanByPossibleParameterizedTypeName(Class cls, String suffix) {
+        String simpleName = cls.getSimpleName();
+        String beanName = Character.toUpperCase(simpleName.charAt(0)) +simpleName.substring(1) + suffix;
+        return (T)SpringContextUtils.getBean(beanName);
+    }
+
+    /**
+     * 根据参数类型，从被注解标注的bean对象中查找
+     *
+     * @param cls     bean中含有的参数类型
+     * @param aClass  注解类型
+     * @param <T>
+     * @return
+     */
+    public static <T> T getBeanByParameterizedType(Class cls, Class<? extends Annotation> aClass) {
+        Map<String, Object> beans = SpringContextUtils.getContext().getBeansWithAnnotation(aClass);
+        for (Object bean : beans.values()) {
+            Object target;
+            try {
+                target = AopTargetUtils.getTarget(bean);
+            } catch (Exception e) {
+                continue;
+            }
+            Class targetClass = target.getClass();
+            if (ReflectHelper.existSuperClassGenericType(targetClass, cls)) {
+                return (T)bean;
+            }
+            if (ReflectHelper.existInterfaceGenericType(targetClass, cls)) {
+                return (T)bean;
+            }
+        }
+        throw new RuntimeException("None of the Bean's ParameterizedType is " + cls.getSimpleName());
+    }
+
 
 
     /**
@@ -69,7 +114,8 @@ public class SpringContextUtils implements ApplicationContextAware {
 
 
     private static void checkApplicationContext() {
-        Assert.notNull(applicationContext, "applicaitonContext 未注入");
+        Assert.notNull(applicationContext, "applicationContext 未注入");
     }
+
 
 }

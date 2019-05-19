@@ -1,6 +1,8 @@
 <template>
   <div class="filter-container" @keydown.enter="$emit('search')">
-    <slot />
+    <div class="customer-filter-items">
+      <slot />
+    </div>
     <el-button
       icon="el-icon-search"
       class="filter-item"
@@ -15,7 +17,7 @@
       @click="$emit('reset')"
     >重置
     </el-button>
-    <div class="button-list">
+    <div class="customer-button-list">
       <slot name="buttons" />
     </div>
   </div>
@@ -33,13 +35,19 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.button-list {
+.customer-button-list {
   display: inline-block;
   >button {
     display: inline-block;
     vertical-align: middle;
     margin-left: 10px;
     margin-bottom: 10px;
+  }
+}
+.customer-filter-items {
+  display: inline-block;
+  >.filter-item:last-child {
+    margin-right: 10px;
   }
 }
 </style>

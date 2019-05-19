@@ -1,33 +1,35 @@
 import Vue from 'vue'
+import Element from 'element-ui'
 
 import Cookies from 'js-cookie'
 
-import 'normalize.css/normalize.css' // a modern alternative to CSS resets
-
-import Element from 'element-ui'
+// CSS重置的样式
+import 'normalize.css/normalize.css'
+// global css
 import './styles/element-variables.scss'
-import './styles/index.scss' // global css
-import './styles/user.css' // global css
+// 自定义css
+import './styles/index.scss'
+import './styles/user.css'
 
 import App from './App'
 import store from './store'
 import router from './router'
 
-import './icons' // icon
-import './permission' // permission control
-import './utils/error-log' // error log
+// icon
+import './icons'
+// 权限控制
+import './permission'
+// 错误日志
+import './utils/error-log'
+// 全局过滤器
+import * as filters from './filters'
 
-import * as filters from './filters' // global filters
 import * as utils from './utils/index'
 import BaseList from './components/Base/list'
 
 /**
- * If you don't want to use mock-server
- * you want to use MockJs for mock api
- * you can execute: mockXHR()
- *
- * Currently MockJs will be used in the production environment,
- * please remove it before going online! ! !
+ * 如果不想使用模拟服务器 想使用MockJs进行模拟api 可以执行：mockXHR（）
+ * 目前MockJs将用于生产环境， 请在上网前将其删除！ ！ ！
  */
 import { mockXHR } from '../mock'
 if (process.env.NODE_ENV === 'production') {
@@ -35,16 +37,20 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 Vue.use(Element, {
-  size: Cookies.get('size') || 'medium' // set element-ui default size
+  // 设置 element-ui默认布局大小
+  size: Cookies.get('size') || 'medium'
 })
 
-// register global utility filters
+// 注册全局过滤器
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
 Vue.config.productionTip = false
+
+// 注册自定义组件
 Vue.prototype.$utils = utils
+// 注册工具类
 Vue.component('base-list', BaseList)
 
 new Vue({

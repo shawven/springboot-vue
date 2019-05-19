@@ -1,7 +1,7 @@
 <template>
   <div class="upload-container">
-    <el-button :style="{background:color,borderColor:color}" icon="el-icon-upload" size="mini" type="primary" @click=" dialogVisible=true">
-      upload
+    <el-button icon="el-icon-upload" size="mini" @click=" dialogVisible=true">
+      上传本地图片
     </el-button>
     <el-dialog :visible.sync="dialogVisible">
       <el-upload
@@ -16,15 +16,18 @@
         list-type="picture-card"
       >
         <el-button size="small" type="primary">
-          Click upload
+          点击选择图片
         </el-button>
       </el-upload>
-      <el-button @click="dialogVisible = false">
-        Cancel
-      </el-button>
-      <el-button type="primary" @click="handleSubmit">
-        Confirm
-      </el-button>
+      <el-row type="flex" justify="center">
+        <el-button @click="dialogVisible = false">
+          取消
+        </el-button>
+        <span class="w-10" />
+        <el-button type="primary" @click="handleSubmit">
+          确认
+        </el-button>
+      </el-row>
     </el-dialog>
   </div>
 </template>

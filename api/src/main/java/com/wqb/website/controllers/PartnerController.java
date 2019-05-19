@@ -47,16 +47,11 @@ public class PartnerController implements SelectPageMethod<Partner>, DeleteMetho
      * @return
      */
     @PutMapping
-    public ResponseEntity update(@Valid Partner entity) {
+    public ResponseEntity process(Partner entity) {
         entity.setUpdateTime(new Date());
         if (!partnerService.updateById(entity)) {
             return ResponseUtils.unprocesable("更新失败！", entity);
         }
         return ResponseUtils.created("更新成功！", entity);
-    }
-
-    @Override
-    public BaseService<Partner> getBaseService() {
-        return partnerService;
     }
 }

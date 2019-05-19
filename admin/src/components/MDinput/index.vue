@@ -330,7 +330,7 @@ export default {
       border-bottom: 1px solid $color-grey-light;
     }
     .material-label {
-      color: $color-grey;
+      color: #606266;
     }
     .material-input-bar {
       &:before,

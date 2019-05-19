@@ -3,7 +3,7 @@ import { MessageBox } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
-// create an axios instance
+// 创建一个axios实例
 const service = axios.create({
   // url = base url + request url
   // baseURL: process.env.VUE_APP_BASE_API,
@@ -58,7 +58,7 @@ const getParams = (obj, formData = false) => {
   }
 }
 
-// request interceptor
+// 请求拦截器
 service.interceptors.request.use(
   config => {
     if (config.data) {
@@ -80,7 +80,7 @@ service.interceptors.request.use(
   }
 )
 
-// response interceptor
+// 响应拦截器
 service.interceptors.response.use(
   response => {
     return response.data
@@ -97,7 +97,7 @@ service.interceptors.response.use(
           })
         }
       })
-      return Promise.reject(getError(error))
+      return Promise.reject(getErrorMessage(error))
     }
 
     console.log('response error:')
@@ -107,12 +107,8 @@ service.interceptors.response.use(
       const matchArray = new RegExp('.*\\s{1}(\\d+)ms.*').exec(error.message)
       error = new Error('连接已超时超过' + matchArray[1] / 1000 + '秒')
     }
-    return Promise.reject(getError(error))
+    return Promise.reject(getErrorMessage(error))
   }
 )
-
-
-
-
 
 export default service

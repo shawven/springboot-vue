@@ -17,10 +17,10 @@ export default {
   data() {
     return {
       sizeOptions: [
-        { label: 'Default', value: 'default' },
-        { label: 'Medium', value: 'medium' },
-        { label: 'Small', value: 'small' },
-        { label: 'Mini', value: 'mini' }
+        { label: '普通', value: 'default' },
+        { label: '中等', value: 'medium' },
+        { label: '较小', value: 'small' },
+        { label: '最小', value: 'mini' }
       ]
     }
   },
@@ -34,10 +34,7 @@ export default {
       this.$ELEMENT.size = size
       this.$store.dispatch('app/setSize', size)
       this.refreshView()
-      this.$message({
-        message: 'Switch Size Success',
-        type: 'success'
-      })
+      this.$message.success({ message: '切换布局大小成功' })
     },
     refreshView() {
       // In order to make the cached page re-rendered

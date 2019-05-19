@@ -30,8 +30,6 @@ module.exports = {
     port: port,
     open: true,
     hot: true,
-    compress: true,
-    historyApiFallback: true,
     overlay: {
       warnings: false,
       errors: true

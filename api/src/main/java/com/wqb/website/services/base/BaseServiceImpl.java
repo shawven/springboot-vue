@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.aop.framework.AopContext;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -90,5 +92,27 @@ public abstract class BaseServiceImpl<T> extends ServiceImpl<BaseMapper<T>, T> i
     @Override
     public IPage<Map<String, Object>> pageMaps(IPage<T> page, T entity) {
         return pageMaps(page, new QueryWrapper<>(entity));
+    }
+
+
+    /**
+     * 重载父类获取当前模型class的方法，父类方法有两个参数化类型，而此类只有一个
+     *
+     * @return
+     */
+    @Override
+    protected Class<T> currentModelClass() {
+        return (Class<T>) ReflectionKit.getSuperClassGenericType(getClass(), 0);
+    }
+
+    /**
+     * 获取当前的Aop代理对象
+     *
+     * @param that
+     * @param <T>
+     * @return
+     */
+    protected <T> T aopProxy(T that) {
+        return (T) AopContext.currentProxy();
     }
 }

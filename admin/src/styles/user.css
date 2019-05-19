@@ -1642,6 +1642,10 @@ button.bg-gray-900:focus {
     clip-path: none;
 }
 
+.w-10 {
+    width: 10% !important;
+}
+
 .w-25 {
     width: 25% !important;
 }
@@ -1656,6 +1660,10 @@ button.bg-gray-900:focus {
 
 .w-100 {
     width: 100% !important;
+}
+
+.h-10 {
+    height: 10% !important;
 }
 
 .h-25 {

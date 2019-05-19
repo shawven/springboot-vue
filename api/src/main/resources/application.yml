@@ -116,10 +116,12 @@ app:
 spring:
   profiles: dev
   datasource:
-    url: jdbc:mysql://192.168.1.10:3306/wqb_website?useUnicode=true&characterEncodin g=utf-8&serverTimezone=GMT%2B8
-    username: xw
-    password: Xw9999
-
+#    url: jdbc:mysql://192.168.1.10:3306/wqb_website?useUnicode=true&characterEncodin g=utf-8&serverTimezone=GMT%2B8
+#    username: xw
+#    password: Xw9999
+    url: jdbc:mysql://www.lazyor.com:3306/test_db?useUnicode=true&characterEncodin g=utf-8&serverTimezone=GMT%2B8
+    username: caipiao
+    password: caipiao...
   redis:
     host: 127.0.0.1
 

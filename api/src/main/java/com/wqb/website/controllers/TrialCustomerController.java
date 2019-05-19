@@ -46,17 +46,11 @@ public class TrialCustomerController implements SelectPageMethod<TrialCustomer>,
      * @return
      */
     @PutMapping
-    public ResponseEntity update(TrialCustomer entity) {
+    public ResponseEntity process(TrialCustomer entity) {
         entity.setUpdateTime(new Date());
         if (!trialCustomerService.updateById(entity)) {
             return ResponseUtils.unprocesable("更新失败！", entity);
         }
         return ResponseUtils.created("更新成功！", entity);
-    }
-
-
-    @Override
-    public BaseService<TrialCustomer> getBaseService() {
-        return trialCustomerService;
     }
 }
