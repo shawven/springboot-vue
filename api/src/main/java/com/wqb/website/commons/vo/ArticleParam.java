@@ -47,23 +47,12 @@ public class ArticleParam {
 
     private boolean createTimeDirection;
 
-    private Sort sort;
+    private String sort;
 
-    @Data
-    private static class Sort {
-        private String sortNo;
-        private String createTime;
-    }
 
-    public String getSortNoDirection() {
-        return StringUtils.isNotBlank(sort.getSortNo()) && sort.getSortNo().equals("desc")
-                ? "desc"
-                : "asc";
-    }
-
-    public String getCreateTimeDirection() {
-        return StringUtils.isNotBlank(sort.getCreateTime()) && sort.getCreateTime().equals("asc")
-                ? "asc"
-                : "desc";
+    public String getSort() {
+        String sortDisr = sort.substring(0, 1);
+        String field = sort.substring(1);
+        return field + (sortDisr.equals("+") ? " asc" : " desc");
     }
 }

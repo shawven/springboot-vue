@@ -3,7 +3,7 @@ module.exports = {
    * @type {string}
    * @description 系统名称
    */
-  title: '微企宝后台管理系统',
+  title: '后台管理系统',
 
   /**
    * @type {string}

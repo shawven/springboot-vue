@@ -52,7 +52,6 @@
     </select>
 
     <select id="selectPageList" resultMap="ContentResultMap">
-        <bind name="likeSubjectPattern" value="'%' + artParam.subject + '%'" />
         select <include refid="Full_Column_List"/>
         from article a
         join article_content c on a.id=c.article_id
@@ -74,18 +73,17 @@
                 </foreach>
             </if>
             <if test="artParam.subject !=null">
-                and a.subject like #{likeSubjectPattern}
+                and a.subject like contact('%', artParam.subject, '%')
             </if>
             <if test="artParam.isEnabled !=null">
                 and a.is_enabled=#{artParam.isEnabled}
             </if>
         </where>
-        order by a.sort_no ${artParam.sortNoDirection}, a.create_time ${artParam.createTimeDirection}
+        order by ${artParam.sort}
         limit ${(artParam.current-1)*artParam.size} , ${artParam.size}
     </select>
 
     <select id="selectTotal"  resultType="java.lang.Long">
-        <bind name="likeSubjectPattern" value="'%' + artParam.subject + '%'" />
         select count(1)
         from article a
         join article_content c on a.id=c.article_id
@@ -107,7 +105,7 @@
                 </foreach>
             </if>
             <if test="artParam.subject !=null">
-                and a.subject like #{likeSubjectPattern}
+                and a.subject like contact('%', artParam.subject, '%')
             </if>
             <if test="artParam.isEnabled !=null">
                 and a.is_enabled=#{artParam.isEnabled}
